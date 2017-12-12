@@ -124,6 +124,8 @@ def sqldump(dburi, dirpath):
 
 def import_cuckoo(username, mode, dirpath):
     version = identify(dirpath)
+    # overwrite to 2.0.4
+    version = "2.0.4"
     if not version:
         raise CuckooOperationalError(
             "The path that you specified is not a proper Cuckoo setup. Please "
@@ -218,6 +220,10 @@ def import_legacy_analyses(mode, dirpath):
     tasks = []
     for task_id in os.listdir(analyses):
         if task_id == "latest":
+            continue
+
+        # dealt with .gitignore
+        if task_id == ".gitignore":
             continue
 
         import_analysis(
